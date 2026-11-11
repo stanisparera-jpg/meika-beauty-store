@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300" viewBox="0 0 600 600" role="img" aria-label="Ilustrasi produk MK-30 Beauty Blender • Single Teardrop">
+  <defs>
+    <radialGradient id="mk-30-v1-studio-bg" cx="50%" cy="38%" r="68%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="65%" stop-color="#FAF8F5"/>
+      <stop offset="100%" stop-color="#F2ECE6"/>
+    </radialGradient>
+    <radialGradient id="mk-30-v1-shadow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#292626" stop-opacity="0.18"/>
+      <stop offset="65%" stop-color="#292626" stop-opacity="0.06"/>
+      <stop offset="100%" stop-color="#292626" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="mk-30-v1-glass" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.65"/>
+      <stop offset="18%" stop-color="#FFFFFF" stop-opacity="0.12"/>
+      <stop offset="82%" stop-color="#292626" stop-opacity="0.04"/>
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0.35"/>
+    </linearGradient>
+    <linearGradient id="mk-30-v1-metal" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#3E3838"/>
+      <stop offset="35%" stop-color="#5B5353"/>
+      <stop offset="70%" stop-color="#292626"/>
+      <stop offset="100%" stop-color="#494242"/>
+    </linearGradient>
+    <linearGradient id="mk-30-v1-rose-metal" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#C98A94"/>
+      <stop offset="35%" stop-color="#F1C7CD"/>
+      <stop offset="75%" stop-color="#9A5F69"/>
+      <stop offset="100%" stop-color="#D79CA6"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="600" fill="url(#mk-30-v1-studio-bg)"/>
+  <line x1="0" y1="468" x2="600" y2="468" stroke="#292626" stroke-opacity="0.06" stroke-width="1"/>
+  
+        <ellipse cx="300" cy="472" rx="128" ry="22" fill="url(#mk-30-v1-shadow)"/>
+        <defs>
+          <radialGradient id="mk-30-v1-spg" cx="38%" cy="32%" r="68%">
+            <stop offset="0%" stop-color="#edbac1"/>
+            <stop offset="60%" stop-color="#E59AA5"/>
+            <stop offset="100%" stop-color="#ae757d"/>
+          </radialGradient>
+        </defs>
+        <path d="M 300 132 C 334 218 416 286 416 376 C 416 436 364 468 300 468 C 236 468 184 436 184 376 C 184 286 266 218 300 132 Z" fill="url(#mk-30-v1-spg)" stroke="#292626" stroke-opacity="0.1"/>
+        <ellipse cx="268" cy="290" rx="22" ry="44" fill="#FFFFFF" fill-opacity="0.18" transform="rotate(18 268 290)"/>
+        <text x="300" y="556" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" letter-spacing="1.8" fill="#5E5857">MK-30  |  BEAUTY BLENDER • SINGLE TEARDROP</text>
+        
+</svg>

@@ -1,0 +1,140 @@
+import type { HomePromoBanner, PromoCode } from '../types/cart';
+import type { Order } from '../types/order';
+
+export const SEED_PROMO_CODES: PromoCode[] = [
+  {
+    code: 'MEIKA10',
+    label: 'Diskon 10% kurasi belanja minimal Rp 100.000',
+    type: 'percent',
+    value: 10,
+    minSubtotal: 100000,
+    active: true,
+  },
+  {
+    code: 'CANTIK20',
+    label: 'Potongan Rp 20.000 belanja minimal Rp 150.000',
+    type: 'fixed',
+    value: 20000,
+    minSubtotal: 150000,
+    active: true,
+  },
+];
+
+export const SEED_HOME_BANNERS: HomePromoBanner[] = [
+  {
+    id: 'promo-1',
+    title: 'Kurasi Akhir Pekan: Hemat hingga 18% Base & Lip Favorit',
+    subtitle:
+      'Gunakan kode MEIKA10 saat checkout untuk tambahan potongan 10% pada pesanan minimal Rp 100.000.',
+    badgeText: 'Promo Pilihan',
+    ctaLabel: 'Belanja Promo',
+    ctaHref: '/shop?sort=popular',
+    promoCode: 'MEIKA10',
+    active: true,
+  },
+  {
+    id: 'promo-2',
+    title: 'Gratis Ongkir Jabodetabek Reguler',
+    subtitle:
+      'Belanja minimal Rp 250.000 setelah potongan promo untuk pengiriman Reguler Jabodetabek tanpa biaya kirim.',
+    badgeText: 'Gratis Ongkir',
+    ctaLabel: 'Lihat Katalog',
+    ctaHref: '/shop',
+    active: true,
+  },
+];
+
+export const SEED_DEMO_ORDERS: Order[] = [
+  {
+    orderId: 'MK-20261110-1042',
+    createdAtIso: '2026-11-10T09:15:00.000Z',
+    customerId: 'cust-nadia',
+    customer: {
+      fullName: 'Nadia Putri',
+      email: 'customer@meika.id',
+      phone: '081288990011',
+      address: 'Jl. Kemang Raya No. 24, Mampang Prapatan',
+      province: 'DKI Jakarta',
+      city: 'Jakarta Selatan',
+      district: 'Mampang Prapatan',
+      postalCode: '12730',
+      shippingZone: 'jabodetabek',
+      shippingService: 'reguler',
+    },
+    paymentMethod: 'va-bank',
+    paymentStatusLabel: 'Simulasi Pembayaran Terkonfirmasi (Demo)',
+    items: [
+      {
+        productId: 'mk-02',
+        sku: 'MK-02',
+        productName: 'Cover All Perfect Cushion 11g',
+        brandName: 'Skintific',
+        variantId: 'mk-02-v2',
+        variantLabel: '02 Ivory',
+        colorHex: '#EAD0BA',
+        image: '/images/products/variants/mk-02-v2.svg',
+        unitPrice: 165000,
+        quantity: 1,
+      },
+      {
+        productId: 'mk-11',
+        sku: 'MK-11',
+        productName: 'Mattedorable Lip Cream 4g',
+        brandName: 'Hanasui',
+        variantId: 'mk-11-v2',
+        variantLabel: '04 Chic',
+        colorHex: '#8F3D45',
+        image: '/images/products/variants/mk-11-v2.svg',
+        unitPrice: 28500,
+        quantity: 1,
+      },
+    ],
+    subtotal: 193500,
+    productSavings: 40500,
+    promoDiscount: 0,
+    shippingCost: 12000,
+    grandTotal: 205500,
+    status: 'Processing',
+    stockDeducted: false,
+  },
+  {
+    orderId: 'MK-20261108-0891',
+    createdAtIso: '2026-11-08T14:30:00.000Z',
+    customer: {
+      fullName: 'Rafi Pratama',
+      email: 'rafi.demo@contoh.id',
+      phone: '081377665544',
+      address: 'Jl. Dago Asri No. 18, Coblong',
+      province: 'Jawa Barat',
+      city: 'Bandung',
+      district: 'Coblong',
+      postalCode: '40135',
+      shippingZone: 'jawa',
+      shippingService: 'reguler',
+    },
+    paymentMethod: 'qris',
+    paymentStatusLabel: 'Simulasi QRIS Selesai (Demo)',
+    items: [
+      {
+        productId: 'mk-25',
+        sku: 'MK-25',
+        productName: '5X Ceramide Barrier Moisture Gel 30g',
+        brandName: 'Skintific',
+        variantId: 'mk-25-v1',
+        variantLabel: '30g Jar',
+        image: '/images/products/variants/mk-25-v1.svg',
+        unitPrice: 129000,
+        quantity: 1,
+      },
+    ],
+    subtotal: 129000,
+    productSavings: 20000,
+    promoCode: 'MEIKA10',
+    promoDiscount: 12900,
+    shippingCost: 18000,
+    grandTotal: 134100,
+    status: 'Delivered',
+    stockDeducted: false,
+  },
+];
+

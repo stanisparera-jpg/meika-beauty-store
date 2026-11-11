@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="540" height="465" viewBox="0 0 720 620" role="img" aria-label="Kurasi editorial produk kecantikan MEIKA Beauty Store">
+  <defs>
+    <radialGradient id="hero-studio-bg" cx="50%" cy="38%" r="68%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="65%" stop-color="#F6E8E9"/>
+      <stop offset="100%" stop-color="#F2ECE6"/>
+    </radialGradient>
+    <radialGradient id="hero-shadow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#292626" stop-opacity="0.18"/>
+      <stop offset="65%" stop-color="#292626" stop-opacity="0.06"/>
+      <stop offset="100%" stop-color="#292626" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="hero-glass" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.65"/>
+      <stop offset="18%" stop-color="#FFFFFF" stop-opacity="0.12"/>
+      <stop offset="82%" stop-color="#292626" stop-opacity="0.04"/>
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0.35"/>
+    </linearGradient>
+    <linearGradient id="hero-metal" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#3E3838"/>
+      <stop offset="35%" stop-color="#5B5353"/>
+      <stop offset="70%" stop-color="#292626"/>
+      <stop offset="100%" stop-color="#494242"/>
+    </linearGradient>
+    <linearGradient id="hero-rose-metal" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#C98A94"/>
+      <stop offset="35%" stop-color="#F1C7CD"/>
+      <stop offset="75%" stop-color="#9A5F69"/>
+      <stop offset="100%" stop-color="#D79CA6"/>
+    </linearGradient>
+  </defs>
+  <rect width="720" height="620" fill="url(#hero-studio-bg)"/>
+  <line x1="0" y1="483" x2="720" y2="483" stroke="#292626" stroke-opacity="0.06" stroke-width="1"/>
+  
+    <rect x="44" y="468" width="632" height="96" rx="16" fill="#FFFFFF" stroke="#292626" stroke-opacity="0.1"/>
+    <ellipse cx="220" cy="466" rx="92" ry="18" fill="url(#hero-shadow)"/>
+    <ellipse cx="388" cy="472" rx="84" ry="16" fill="url(#hero-shadow)"/>
+    <ellipse cx="540" cy="468" rx="68" ry="14" fill="url(#hero-shadow)"/>
+    <!-- Plinth & Foundation Bottle -->
+    <rect x="172" y="138" width="46" height="44" rx="6" fill="url(#hero-metal)"/>
+    <rect x="142" y="182" width="106" height="278" rx="18" fill="#FFFFFF" fill-opacity="0.82" stroke="#292626" stroke-opacity="0.14" stroke-width="1.5"/>
+    <rect x="152" y="198" width="86" height="250" rx="12" fill="#E3BA9C"/>
+    <rect x="166" y="276" width="58" height="72" rx="5" fill="#FAF8F5"/>
+    <text x="195" y="318" text-anchor="middle" font-family="Georgia, serif" font-size="16" fill="#292626">MEIKA</text>
+    <!-- Cushion Compact -->
+    <circle cx="388" cy="342" r="94" fill="#E8A5AD" stroke="#292626" stroke-opacity="0.12" stroke-width="2"/>
+    <circle cx="388" cy="342" r="72" fill="#EAD0BA"/>
+    <circle cx="436" cy="382" r="34" fill="#FAF8F5" stroke="#B87883" stroke-width="1.5"/>
+    <!-- Velvet Lip Tube + Serum Dropper -->
+    <rect x="512" y="186" width="54" height="58" rx="6" fill="url(#hero-rose-metal)"/>
+    <rect x="506" y="244" width="66" height="218" rx="10" fill="#FFFFFF" fill-opacity="0.85" stroke="#292626" stroke-opacity="0.15"/>
+    <rect x="514" y="254" width="50" height="198" rx="7" fill="#9E3F4B"/>
+    <text x="360" y="520" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" letter-spacing="2" fill="#5E5857">FACE MAKEUP   •   LIP COLOR   •   SKINCARE   •   BEAUTY ESSENTIALS</text>
+    
+</svg>

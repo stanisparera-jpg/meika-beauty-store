@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300" viewBox="0 0 600 600" role="img" aria-label="Tekstur dan varian MK-31">
+  <defs>
+    <radialGradient id="mk-31-sw-studio-bg" cx="50%" cy="38%" r="68%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="65%" stop-color="#FAF8F5"/>
+      <stop offset="100%" stop-color="#F2ECE6"/>
+    </radialGradient>
+    <radialGradient id="mk-31-sw-shadow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#292626" stop-opacity="0.18"/>
+      <stop offset="65%" stop-color="#292626" stop-opacity="0.06"/>
+      <stop offset="100%" stop-color="#292626" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="mk-31-sw-glass" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.65"/>
+      <stop offset="18%" stop-color="#FFFFFF" stop-opacity="0.12"/>
+      <stop offset="82%" stop-color="#292626" stop-opacity="0.04"/>
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0.35"/>
+    </linearGradient>
+    <linearGradient id="mk-31-sw-metal" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#3E3838"/>
+      <stop offset="35%" stop-color="#5B5353"/>
+      <stop offset="70%" stop-color="#292626"/>
+      <stop offset="100%" stop-color="#494242"/>
+    </linearGradient>
+    <linearGradient id="mk-31-sw-rose-metal" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#C98A94"/>
+      <stop offset="35%" stop-color="#F1C7CD"/>
+      <stop offset="75%" stop-color="#9A5F69"/>
+      <stop offset="100%" stop-color="#D79CA6"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="600" fill="url(#mk-31-sw-studio-bg)"/>
+  <line x1="0" y1="468" x2="600" y2="468" stroke="#292626" stroke-opacity="0.06" stroke-width="1"/>
+  
+        <rect x="64" y="96" width="472" height="398" rx="18" fill="#FFFFFF" stroke="#292626" stroke-opacity="0.1"/>
+        <text x="300" y="146" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" letter-spacing="1.6" fill="#5E5857">TEKSTUR / KOMPONEN PRODUK  |  MK-31</text>
+        <circle cx="300" cy="306" r="108" fill="#e1ebf2" stroke="#292626" stroke-opacity="0.08"/>
+        <path d="M 228 312 C 254 252 346 252 372 312 C 350 358 250 358 228 312 Z" fill="#DCE8F0" stroke="#292626" stroke-opacity="0.1"/>
+        <path d="M 256 290 Q 300 270 344 290" fill="none" stroke="#FFFFFF" stroke-opacity="0.7" stroke-width="6" stroke-linecap="round"/>
+        <text x="300" y="446" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14" fill="#292626">Varian Utama: 150ml Bottle (Non-Shade)</text>
+        <text x="300" y="556" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" letter-spacing="1.8" fill="#5E5857">MK-31  |  MAKEUP REMOVER</text>
+        
+</svg>

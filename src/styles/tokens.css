@@ -1,0 +1,29 @@
+:root {
+  --bg-ivory: #faf8f5;
+  --bg-surface: #ffffff;
+  --bg-soft-pink: #f6e8e9;
+  --ink: #292626;
+  --ink-inverse: #faf8f5;
+  --primary-pink: #e8a5ad;
+  --muted-rose: #b87883;
+  --action-rose: #7a3d49;
+  --action-rose-hover: #642f39;
+  --muted-ink: #5e5857;
+  --border-hairline: rgba(41, 38, 38, 0.12);
+  --border-strong: rgba(41, 38, 38, 0.24);
+  --status-success: #245c3f;
+  --status-warning: #875013;
+  --status-danger: #94232d;
+
+  --font-display: 'Instrument Serif', Georgia, serif;
+  --font-text: 'Instrument Sans', system-ui, -apple-system, sans-serif;
+
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-full: 999px;
+
+  --ease-ui: cubic-bezier(0.22, 1, 0.36, 1);
+  --container-max: 1280px;
+  --edge-pad: clamp(20px, 5vw, 72px);
+}
+

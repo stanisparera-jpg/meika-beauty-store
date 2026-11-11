@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300" viewBox="0 0 600 600" role="img" aria-label="Ilustrasi produk MK-22 Facial Wash • 100ml Tube">
+  <defs>
+    <radialGradient id="mk-22-v1-studio-bg" cx="50%" cy="38%" r="68%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="65%" stop-color="#FAF8F5"/>
+      <stop offset="100%" stop-color="#F2ECE6"/>
+    </radialGradient>
+    <radialGradient id="mk-22-v1-shadow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#292626" stop-opacity="0.18"/>
+      <stop offset="65%" stop-color="#292626" stop-opacity="0.06"/>
+      <stop offset="100%" stop-color="#292626" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="mk-22-v1-glass" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.65"/>
+      <stop offset="18%" stop-color="#FFFFFF" stop-opacity="0.12"/>
+      <stop offset="82%" stop-color="#292626" stop-opacity="0.04"/>
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0.35"/>
+    </linearGradient>
+    <linearGradient id="mk-22-v1-metal" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#3E3838"/>
+      <stop offset="35%" stop-color="#5B5353"/>
+      <stop offset="70%" stop-color="#292626"/>
+      <stop offset="100%" stop-color="#494242"/>
+    </linearGradient>
+    <linearGradient id="mk-22-v1-rose-metal" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#C98A94"/>
+      <stop offset="35%" stop-color="#F1C7CD"/>
+      <stop offset="75%" stop-color="#9A5F69"/>
+      <stop offset="100%" stop-color="#D79CA6"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="600" fill="url(#mk-22-v1-studio-bg)"/>
+  <line x1="0" y1="468" x2="600" y2="468" stroke="#292626" stroke-opacity="0.06" stroke-width="1"/>
+  
+        <ellipse cx="300" cy="472" rx="128" ry="22" fill="url(#mk-22-v1-shadow)"/>
+        <rect x="262" y="410" width="76" height="54" rx="6" fill="url(#mk-22-v1-metal)"/>
+        <path d="M 212 132 L 388 132 L 352 410 L 248 410 Z" fill="#f6eef0" stroke="#292626" stroke-opacity="0.18" stroke-width="1.5"/>
+        <rect x="212" y="132" width="176" height="18" rx="3" fill="#FAF8F5" stroke="#292626" stroke-opacity="0.16"/>
+        <path d="M 228 214 L 372 214 L 358 342 L 242 342 Z" fill="#FFFFFF" fill-opacity="0.9"/>
+        <rect x="274" y="234" width="52" height="12" rx="6" fill="#7A3D49"/>
+        <text x="300" y="282" text-anchor="middle" font-family="Georgia, serif" font-size="19" fill="#292626">MK-22</text>
+        <text x="300" y="306" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" letter-spacing="1.2" fill="#5E5857">FACIAL WASH • 100ML TUBE</text>
+        <text x="300" y="556" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" letter-spacing="1.8" fill="#5E5857">MK-22  |  FACIAL WASH • 100ML TUBE</text>
+        
+</svg>

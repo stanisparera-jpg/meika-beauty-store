@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300" viewBox="0 0 600 600" role="img" aria-label="Ilustrasi produk MK-19 Eyeshadow • 02 Hall of Stars">
+  <defs>
+    <radialGradient id="mk-19-v2-studio-bg" cx="50%" cy="38%" r="68%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="65%" stop-color="#FAF8F5"/>
+      <stop offset="100%" stop-color="#F2ECE6"/>
+    </radialGradient>
+    <radialGradient id="mk-19-v2-shadow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#292626" stop-opacity="0.18"/>
+      <stop offset="65%" stop-color="#292626" stop-opacity="0.06"/>
+      <stop offset="100%" stop-color="#292626" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="mk-19-v2-glass" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.65"/>
+      <stop offset="18%" stop-color="#FFFFFF" stop-opacity="0.12"/>
+      <stop offset="82%" stop-color="#292626" stop-opacity="0.04"/>
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0.35"/>
+    </linearGradient>
+    <linearGradient id="mk-19-v2-metal" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#3E3838"/>
+      <stop offset="35%" stop-color="#5B5353"/>
+      <stop offset="70%" stop-color="#292626"/>
+      <stop offset="100%" stop-color="#494242"/>
+    </linearGradient>
+    <linearGradient id="mk-19-v2-rose-metal" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#C98A94"/>
+      <stop offset="35%" stop-color="#F1C7CD"/>
+      <stop offset="75%" stop-color="#9A5F69"/>
+      <stop offset="100%" stop-color="#D79CA6"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="600" fill="url(#mk-19-v2-studio-bg)"/>
+  <line x1="0" y1="468" x2="600" y2="468" stroke="#292626" stroke-opacity="0.06" stroke-width="1"/>
+  
+        <ellipse cx="300" cy="472" rx="128" ry="22" fill="url(#mk-19-v2-shadow)"/>
+        <rect x="164" y="116" width="272" height="156" rx="14" fill="#292626"/>
+        <rect x="178" y="130" width="244" height="128" rx="8" fill="#EFEBE7"/>
+        <path d="M 196 140 L 288 140 L 234 248 L 188 248 Z" fill="#FFFFFF" fill-opacity="0.72"/>
+        <rect x="164" y="286" width="272" height="170" rx="14" fill="#292626"/>
+        <rect x="176" y="298" width="248" height="146" rx="10" fill="#FAF8F5"/>
+        <rect x="188" y="312" width="66" height="54" rx="6" fill="#F1DDD2" stroke="#292626" stroke-opacity="0.14"/><rect x="266" y="312" width="66" height="54" rx="6" fill="#D9A99A" stroke="#292626" stroke-opacity="0.14"/><rect x="344" y="312" width="66" height="54" rx="6" fill="#B88C74" stroke="#292626" stroke-opacity="0.14"/><rect x="188" y="380" width="66" height="54" rx="6" fill="#8E575E" stroke="#292626" stroke-opacity="0.14"/><rect x="266" y="380" width="66" height="54" rx="6" fill="#C6906B" stroke="#292626" stroke-opacity="0.14"/><rect x="344" y="380" width="66" height="54" rx="6" fill="#8b6a58" stroke="#292626" stroke-opacity="0.14"/>
+        <text x="300" y="556" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" letter-spacing="1.8" fill="#5E5857">MK-19  |  EYESHADOW • 02 HALL OF STARS</text>
+        
+</svg>

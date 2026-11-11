@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300" viewBox="0 0 600 600" role="img" aria-label="Tekstur dan varian MK-01">
+  <defs>
+    <radialGradient id="mk-01-sw-studio-bg" cx="50%" cy="38%" r="68%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="65%" stop-color="#FAF8F5"/>
+      <stop offset="100%" stop-color="#F2ECE6"/>
+    </radialGradient>
+    <radialGradient id="mk-01-sw-shadow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#292626" stop-opacity="0.18"/>
+      <stop offset="65%" stop-color="#292626" stop-opacity="0.06"/>
+      <stop offset="100%" stop-color="#292626" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="mk-01-sw-glass" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.65"/>
+      <stop offset="18%" stop-color="#FFFFFF" stop-opacity="0.12"/>
+      <stop offset="82%" stop-color="#292626" stop-opacity="0.04"/>
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0.35"/>
+    </linearGradient>
+    <linearGradient id="mk-01-sw-metal" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#3E3838"/>
+      <stop offset="35%" stop-color="#5B5353"/>
+      <stop offset="70%" stop-color="#292626"/>
+      <stop offset="100%" stop-color="#494242"/>
+    </linearGradient>
+    <linearGradient id="mk-01-sw-rose-metal" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#C98A94"/>
+      <stop offset="35%" stop-color="#F1C7CD"/>
+      <stop offset="75%" stop-color="#9A5F69"/>
+      <stop offset="100%" stop-color="#D79CA6"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="600" fill="url(#mk-01-sw-studio-bg)"/>
+  <line x1="0" y1="468" x2="600" y2="468" stroke="#292626" stroke-opacity="0.06" stroke-width="1"/>
+  
+        <rect x="64" y="96" width="472" height="398" rx="18" fill="#FFFFFF" stroke="#292626" stroke-opacity="0.1"/>
+        <text x="118" y="142" font-family="system-ui, sans-serif" font-size="12" letter-spacing="1.6" fill="#5E5857">SWATCH FORMULA  |  MK-01</text>
+        <rect x="118" y="146" width="210" height="44" rx="22" fill="#F0D5C2" stroke="#292626" stroke-opacity="0.1"/><path d="M 134 158 Q 210 152 310 160" fill="none" stroke="#FFFFFF" stroke-opacity="0.35" stroke-width="5" stroke-linecap="round"/><text x="352" y="173" font-family="system-ui, sans-serif" font-size="14" font-weight="500" fill="#292626">115 Ivory</text><rect x="118" y="218" width="210" height="44" rx="22" fill="#E3BA9C" stroke="#292626" stroke-opacity="0.1"/><path d="M 134 230 Q 210 224 310 232" fill="none" stroke="#FFFFFF" stroke-opacity="0.35" stroke-width="5" stroke-linecap="round"/><text x="352" y="245" font-family="system-ui, sans-serif" font-size="14" font-weight="500" fill="#292626">128 Warm Nude</text><rect x="118" y="290" width="210" height="44" rx="22" fill="#D5A07D" stroke="#292626" stroke-opacity="0.1"/><path d="M 134 302 Q 210 296 310 304" fill="none" stroke="#FFFFFF" stroke-opacity="0.35" stroke-width="5" stroke-linecap="round"/><text x="352" y="317" font-family="system-ui, sans-serif" font-size="14" font-weight="500" fill="#292626">220 Natural Beige</text><rect x="118" y="362" width="210" height="44" rx="22" fill="#BA7E5C" stroke="#292626" stroke-opacity="0.1"/><path d="M 134 374 Q 210 368 310 376" fill="none" stroke="#FFFFFF" stroke-opacity="0.35" stroke-width="5" stroke-linecap="round"/><text x="352" y="389" font-family="system-ui, sans-serif" font-size="14" font-weight="500" fill="#292626">310 Sun Beige</text>
+        <text x="300" y="556" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" letter-spacing="1.8" fill="#5E5857">MK-01  |  SIMULASI SHADE &amp; TEKSTUR</text>
+        
+</svg>

@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300" viewBox="0 0 600 600" role="img" aria-label="Ilustrasi produk MK-02 Cushion">
+  <defs>
+    <radialGradient id="mk-02-main-studio-bg" cx="50%" cy="38%" r="68%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="65%" stop-color="#FAF8F5"/>
+      <stop offset="100%" stop-color="#F2ECE6"/>
+    </radialGradient>
+    <radialGradient id="mk-02-main-shadow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#292626" stop-opacity="0.18"/>
+      <stop offset="65%" stop-color="#292626" stop-opacity="0.06"/>
+      <stop offset="100%" stop-color="#292626" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="mk-02-main-glass" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.65"/>
+      <stop offset="18%" stop-color="#FFFFFF" stop-opacity="0.12"/>
+      <stop offset="82%" stop-color="#292626" stop-opacity="0.04"/>
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0.35"/>
+    </linearGradient>
+    <linearGradient id="mk-02-main-metal" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#3E3838"/>
+      <stop offset="35%" stop-color="#5B5353"/>
+      <stop offset="70%" stop-color="#292626"/>
+      <stop offset="100%" stop-color="#494242"/>
+    </linearGradient>
+    <linearGradient id="mk-02-main-rose-metal" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#C98A94"/>
+      <stop offset="35%" stop-color="#F1C7CD"/>
+      <stop offset="75%" stop-color="#9A5F69"/>
+      <stop offset="100%" stop-color="#D79CA6"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="600" fill="url(#mk-02-main-studio-bg)"/>
+  <line x1="0" y1="468" x2="600" y2="468" stroke="#292626" stroke-opacity="0.06" stroke-width="1"/>
+  
+        <ellipse cx="300" cy="472" rx="128" ry="22" fill="url(#mk-02-main-shadow)"/>
+        <defs>
+          <radialGradient id="mk-02-main-pan" cx="42%" cy="40%" r="60%">
+            <stop offset="0%" stop-color="#f7e9de"/>
+            <stop offset="68%" stop-color="#F4DFCF"/>
+            <stop offset="100%" stop-color="#b9a99d"/>
+          </radialGradient>
+        </defs>
+        <circle cx="300" cy="212" r="112" fill="#FAF8F5" stroke="url(#mk-02-main-rose-metal)" stroke-width="10"/>
+        <circle cx="300" cy="212" r="96" fill="#EDE8E4"/>
+        <path d="M 235 162 L 325 132 L 350 154 L 258 188 Z" fill="#FFFFFF" fill-opacity="0.68"/>
+        <circle cx="300" cy="364" r="118" fill="#292626"/>
+        <circle cx="300" cy="360" r="108" fill="#FAF8F5"/>
+        <circle cx="300" cy="360" r="84" fill="url(#mk-02-main-pan)"/>
+        <circle cx="300" cy="360" r="84" fill="#292626" fill-opacity="0.06" stroke="#292626" stroke-opacity="0.14"/>
+        <circle cx="364" cy="402" r="46" fill="#FAF8F5" stroke="#E8A5AD" stroke-width="2"/>
+        <rect x="342" y="396" width="44" height="10" rx="5" fill="#E8A5AD"/>
+        <text x="300" y="556" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" letter-spacing="1.8" fill="#5E5857">MK-02  |  CUSHION</text>
+        
+</svg>
