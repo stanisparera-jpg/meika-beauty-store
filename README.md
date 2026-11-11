@@ -185,7 +185,19 @@ Halaman `/marketing` memetakan materi kuliah *Contoh Praktik Promosi Digital* ke
   - Kata Sandi: `meika-admin-2026`
 
 ### Catatan Batasan Keamanan Prototype
-Autentikasi pelanggan (`meika_v1_customer_session`) dan administrator (`meika_v1_admin_session`) dipisahkan secara ketat agar sesi pelanggan ditolak (403 state / diarahkan ulang) oleh `ProtectedAdminRoute` saat mengakses `/admin`. Namun, karena ini merupakan prototype sisi klien berbasis browser dan `localStorage` tanpa backend server maupun token terenkripsi, kredensial demo hanya ditujukan untuk demonstrasi fitur lokal dan bukan untuk lingkungan produksi nyata.
+Autentikasi pelanggan (`meika_v1_customer_session`) dan administrator (`meika_v1_admin_session`) dipisahkan secara ketat pada level state dan `ProtectedAdminRoute` agar sesi pelanggan ditolak (halaman 403) atau pengguna anonim diarahkan ke `/admin/login`. Seluruh pembacaan data `localStorage` kini disertai validator tipe/skema runtime (termasuk `isValidAdminSession`, `isValidCustomerSession`, validasi keranjang/pesanan, dan sanitasi skema URI gambar di `resolveAssetUrl`). Namun, karena aplikasi ini merupakan **prototype front-end berbasis `localStorage` tanpa server backend atau basis data**:
+- Kredensial demo (`customer@meika.id` / `admin@meika.id`) tercantum pada kode klien untuk demonstrasi akademik semata.
+- Pengguna dengan akses DevTools lokal pada browser yang sama secara teknis masih dapat membaca atau memodifikasi data browser mereka sendiri.
+- Sistem ini **belum layak dan tidak diklaim aman untuk transaksi produksi nyata** sebelum tersedia backend API, autentikasi & sesi berbasis server, otorisasi sisi server, validasi transaksi atomik pada database, dan integrasi gerbang pembayaran terverifikasi.
+
+### Audit & Perbaikan Post-Implementation Hardening
+Selama audit pasca-implementasi ditemukan dan diperbaiki 6 temuan utama:
+1. **Persistensi & Status Promo Jujur (`useMeikaStore`, `CartPage`, `CheckoutPage`):** Menyimpan kode promo aktif ke `meika_v1_applied_promo` dan menghentikan tampilan hijau palsu saat subtotal belum mencapai syarat minimum (`MEIKA10` Rp 100.000 / `CANTIK20` Rp 150.000) atau promo nonaktif.
+2. **Penanganan Stok Habis & Sinkronisasi SKU Terhapus (`ProductCard`, `WishlistPage`, `ProductDetailPage`, `useMeikaStore`):** Memilih varian yang masih tersedia secara default, menonaktifkan tombol tambah keranjang berlabel `Stok Habis` saat semua varian habis, membersihkan item keranjang/wishlist saat SKU dihapus Admin, serta menghitung lencana keranjang (`cartCount`) berbasis stok riil.
+3. **Konsistensi Line Duplikat & Delta Stok (`cartPricingService`, `orderLifecycleService`):** Menggabungkan kunci `(productId, variantId)` ganda dengan batas stok varian kumulatif (`hasStockAdjustment`) dan mengakumulasikan perubahan stok pesanan.
+4. **Hardening Keamanan Klien (`storageService`, `authService`, `assetUrl`):** Validasi runtime skema JSON pada `readJson`, penolakan objek `AdminSession` palsu yang tidak sesuai profil Admin demo, serta pemblokiran skema URI berbahaya (`javascript:`, `vbscript:`, `data:text/html`).
+5. **Konsistensi Target Sentuh Mobile >= 44px (`CartPage`, `CheckoutPage`, `ProductDetailPage`, `AdminDashboardPage`):** Memperbesar tombol kontrol kuantitas, chip shade, tombol isi data uji checkout, dan tombol aksi tabel Admin ke minimum `44px`.
+6. **Perbaikan Validator Persistensi Catatan UT (`useMeikaStore`):** Menyesuaikan validasi properti `completedTasks` pada entri `meika_v1_ut_entries` agar catatan 5 slot penguji di `/about` bertahan penuh setelah muat ulang halaman.
 
 ---
 
@@ -210,13 +222,17 @@ npm run build
 npm run preview
 ```
 
-### Ringkasan Verifikasi yang Dijalankan Setelah Edit Implementasi
-- **Typecheck & Build:** `npx.cmd tsc --noEmit` (keluar kode `0`), `npm.cmd run build` (`tsc -b && vite build` sukses dengan pemisahan rute `React.lazy`, bundel entri `index` 357.11 kB / 112.39 kB gzip, CSS 38.58 kB / 7.79 kB gzip).
-- **Unit & Integration Test Suite (`npm.cmd test`):** **16 file tes lulus (16), 36 kasus uji lulus (36)** mencakup `assetUrl.ts`, utilitas format harga, katalog 32 SKU, pricing & ongkir keranjang, validasi formulir Indonesia, siklus stok pesanan, autentikasi & guard admin, HomePage, ShopPage, BrandsPage, ProductDetailPage, Cart-Checkout-Orders, AdminDashboard CRUD, serta About/UT & Marketing.
-- **Audit Performa Taste Skill (`perf.mjs` pada build `dist/`):** Di viewport `1440px` dan `390px`: **0 FAIL, 2 WARN** (satu-satunya `WARN` berasal dari `host CPU load 95/61 %` mesin saat pengujian berjalan); `oversized images: 0`, `images without width+height: 0`, `below-fold images not lazy: 0`, `broken requests: 0`, CLS `0.001` (desktop) dan `0.000` (mobile).
+### Ringkasan Verifikasi Terbaru (Setelah Seluruh Perbaikan Hardening)
+- **Typecheck & Production Build:**
+  - `npx.cmd tsc --noEmit`: keluar kode `0` (0 error TypeScript).
+  - `npx.cmd vite build --base=/meika-beauty-store/`: build subpath GitHub Pages selesai dalam 15.97 detik (1688 modul).
+  - `npm.cmd run build` (`tsc -b && vite build`): selesai dalam 7.71 detik (bundel entri `index-BC4Veivm.js` 359.58 kB / 113.14 kB gzip, CSS 38.47 kB / 7.80 kB gzip).
+- **Unit & Integration Test Suite (`npm.cmd test`):** **16 file tes lulus (16), 43 kasus uji lulus (43)** mencakup `assetUrl` URI sanitization, guard skema `storageService`, `authService` RBAC + penolakan sesi palsu, `cartPricingService` (`MEIKA10`, `CANTIK20` min Rp 150.000, duplikasi varian), `checkoutValidator`, `orderLifecycleService` (idempotensi pembatalan & pemulihan stok), katalog 32 SKU, seluruh komponen/halaman toko & Admin Dashboard, serta persistensi lembar UT `/about`.
+- **Audit Performa Taste Skill (`perf.mjs` pada build `dist/`):** Di viewport `1440px` dan `390px`: **0 FAIL, 0 WARN -> PASS** (`total transfer` 518.1 KiB / 517.1 KiB, `images without width+height: 0`, `below-fold images not lazy: 0`, `oversized images: 0`, `broken requests: 0`, FCP `440 ms` desktop / `376 ms` mobile, LCP `692 ms` desktop / `432 ms` mobile, CLS `0.000`).
 - **Verifikasi Browser Headless Microsoft Edge (`verify_browser.mjs` & `shoot.mjs`):**
-  - Viewport `1440px`, `768px`, dan `390px` di rute `/`, `/shop`, `/brands`, `/about`, `/marketing` mencatat `overflowX: false` dan `brokenImgs: []` (`0` gambar gagal muat).
-  - Seluruh alur E2E nyata di browser terverifikasi: filter Skincare (`Menampilkan 7 produk`), pemilihan shade PDP & penolakan dot shade pada skincare non-shade, gambar sudut swatch PDP (`E2E_PDP_BROKEN_IMGS: []`), kode promo `MEIKA10`, validasi form checkout kosong, pembuatan pesanan `MK-...` + reload F5 browser persisten, redirect guard `/admin` -> `/admin/login`, login admin & pembaruan status pesanan `Processing -> Shipped` tersinkron ke `/orders`, penyimpanan UT `Penguji #1` persisten setelah reload, `CONSOLE_ERRORS: []`, `PAGE_EXCEPTIONS: []`, dan `NETWORK_FAILURES: []`.
+  - Pengecekan kebersihan teks kode & dokumentasi (`76` berkas): `0` pelanggaran karakter (`em-dash`, `en-dash`, emoji).
+  - Audit responsif `1440px`, `768px`, dan `390px` di `/`, `/shop`, `/brands`, `/about`, `/marketing`, `/wishlist`, `/orders`, `/account`, `/admin/login`, serta kondisi beritem di `/cart`, `/checkout`, `/admin` (768px & 390px): seluruhnya mencatat `overflowX: false` dan `brokenImgs: []`.
+  - Alur E2E browser penuh lulus tanpa galat (`CONSOLE_ERRORS: []`, `PAGE_EXCEPTIONS: []`, `NETWORK_FAILURES: []`, `SERVER_404S: []`).
 
 ---
 

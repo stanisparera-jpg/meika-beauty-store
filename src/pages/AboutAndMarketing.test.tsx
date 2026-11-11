@@ -25,7 +25,7 @@ function renderAcademicPage(path: string) {
 describe('AboutPage & MarketingPage academic requirements', () => {
   it('renders 8 prototype stages and empty-slot >=5 tester Usability Testing sheet on /about', async () => {
     const user = userEvent.setup();
-    renderAcademicPage('/about');
+    const { unmount } = renderAcademicPage('/about');
 
     expect(screen.getByText(/8 Tahapan Pengembangan Prototype/i)).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: 'Penguji #5' })).toBeInTheDocument();
@@ -35,6 +35,10 @@ describe('AboutPage & MarketingPage academic requirements', () => {
     await user.type(nameInput, 'Citra Maharani');
     await user.click(screen.getByRole('button', { name: /Simpan Catatan Penguji #1/i }));
     expect(screen.getByText(/Catatan Penguji #1 tersimpan lokal/i)).toBeInTheDocument();
+
+    unmount();
+    renderAcademicPage('/about');
+    expect(screen.getByLabelText(/Nama Penguji #1/i)).toHaveValue('Citra Maharani');
   });
 
   it('renders IG organic (3+), FB/IG Ad, WA broadcast, Email, and Data Simulasi labels on /marketing', () => {

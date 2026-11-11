@@ -90,8 +90,36 @@ export function loginAdmin(emailInput: string, passwordInput: string): AuthResul
   return { ok: false, error: 'Kredensial administrator tidak valid.' };
 }
 
+export function isValidCustomerSession(val: unknown): val is CustomerSession {
+  if (!val || typeof val !== 'object') return false;
+  const candidate = val as Partial<CustomerSession>;
+  return (
+    candidate.role === 'customer' &&
+    typeof candidate.id === 'string' &&
+    candidate.id.trim().length > 0 &&
+    typeof candidate.name === 'string' &&
+    candidate.name.trim().length > 0 &&
+    typeof candidate.email === 'string' &&
+    candidate.email.trim().length > 0
+  );
+}
+
+export function isValidAdminSession(val: unknown): val is AdminSession {
+  if (!val || typeof val !== 'object') return false;
+  const candidate = val as Partial<AdminSession>;
+  return (
+    candidate.role === 'admin' &&
+    candidate.id === DEMO_ADMIN_CREDENTIALS.profile.id &&
+    candidate.email === DEMO_ADMIN_CREDENTIALS.email &&
+    typeof candidate.name === 'string' &&
+    candidate.name.trim().length > 0 &&
+    typeof candidate.loggedInAtIso === 'string' &&
+    candidate.loggedInAtIso.trim().length > 0
+  );
+}
+
 export function canAccessAdmin(adminSession: AdminSession | null): boolean {
-  return adminSession !== null && adminSession.role === 'admin';
+  return isValidAdminSession(adminSession);
 }
 
 export type AdminGateState = 'authorized' | 'forbidden-customer' | 'unauthenticated';
@@ -103,7 +131,7 @@ export function getAdminGateState(
   if (canAccessAdmin(adminSession)) {
     return 'authorized';
   }
-  if (customerSession !== null && customerSession.role === 'customer') {
+  if (isValidCustomerSession(customerSession)) {
     return 'forbidden-customer';
   }
   return 'unauthenticated';

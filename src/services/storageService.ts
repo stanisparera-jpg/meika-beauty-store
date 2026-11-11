@@ -8,18 +8,39 @@ export const MEIKA_STORAGE_KEYS = {
   ORDERS: 'meika_v1_orders',
   CUSTOMER_SESSION: 'meika_v1_customer_session',
   ADMIN_SESSION: 'meika_v1_admin_session',
+  APPLIED_PROMO: 'meika_v1_applied_promo',
   NEWSLETTER: 'meika_v1_newsletter',
   UT_ENTRIES: 'meika_v1_ut_entries',
   ANNOUNCEMENT_DISMISSED: 'meika_v1_announcement_dismissed',
 } as const;
 
-export function readJson<T>(key: string, fallback: T): T {
+export function readJson<T>(
+  key: string,
+  fallback: T,
+  validator?: (val: unknown) => val is T,
+): T {
   try {
     const raw = window.localStorage.getItem(key);
     if (raw === null) {
       return fallback;
     }
-    return JSON.parse(raw) as T;
+    const parsed: unknown = JSON.parse(raw);
+    if (validator) {
+      return validator(parsed) ? parsed : fallback;
+    }
+    if (Array.isArray(fallback) && !Array.isArray(parsed)) {
+      return fallback;
+    }
+    if (typeof fallback === 'boolean' && typeof parsed !== 'boolean') {
+      return fallback;
+    }
+    if (typeof fallback === 'number' && (typeof parsed !== 'number' || !Number.isFinite(parsed))) {
+      return fallback;
+    }
+    if (typeof fallback === 'string' && typeof parsed !== 'string') {
+      return fallback;
+    }
+    return parsed as T;
   } catch {
     return fallback;
   }

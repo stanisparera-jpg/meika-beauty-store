@@ -13,5 +13,21 @@ describe('storageService', () => {
       { productId: 'fallback', variantId: 'v1', quantity: 1 },
     ]);
   });
+
+  it('guards against tampered localStorage JSON with mismatched container types or failing validator', () => {
+    window.localStorage.setItem(MEIKA_STORAGE_KEYS.CART, JSON.stringify({ evil: true }));
+    expect(readJson(MEIKA_STORAGE_KEYS.CART, [])).toEqual([]);
+
+    window.localStorage.setItem(MEIKA_STORAGE_KEYS.ANNOUNCEMENT_DISMISSED, JSON.stringify('yes'));
+    expect(readJson(MEIKA_STORAGE_KEYS.ANNOUNCEMENT_DISMISSED, false)).toBe(false);
+
+    window.localStorage.setItem(
+      MEIKA_STORAGE_KEYS.ADMIN_SESSION,
+      JSON.stringify({ id: 'forged', role: 'admin' }),
+    );
+    const isStrict = (val: unknown): val is { id: string; role: 'admin' } =>
+      Boolean(val && typeof val === 'object' && (val as { id?: string }).id === 'admin-real');
+    expect(readJson<{ id: string; role: 'admin' } | null>(MEIKA_STORAGE_KEYS.ADMIN_SESSION, null, isStrict)).toBeNull();
+  });
 });
 

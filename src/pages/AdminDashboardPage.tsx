@@ -381,7 +381,7 @@ export function AdminDashboardPage() {
                                 setEditingProduct(product);
                                 setModalOpen(true);
                               }}
-                              className="min-w-[36px] min-h-[36px] inline-flex items-center justify-center rounded-[var(--r-sm)] border border-black/15 text-[#292626] hover:bg-[#F6E8E9] cursor-pointer"
+                              className="min-w-[44px] min-h-[44px] inline-flex items-center justify-center rounded-[var(--r-sm)] border border-black/15 text-[#292626] hover:bg-[#F6E8E9] cursor-pointer"
                             >
                               <Pencil size={14} strokeWidth={1.5} aria-hidden="true" />
                             </button>
@@ -389,7 +389,7 @@ export function AdminDashboardPage() {
                               type="button"
                               aria-label={`Hapus ${product.sku}`}
                               onClick={() => handleDeleteProduct(product)}
-                              className="min-w-[36px] min-h-[36px] inline-flex items-center justify-center rounded-[var(--r-sm)] border border-black/15 text-[#B91C1C] hover:bg-[#FEE2E2] cursor-pointer"
+                              className="min-w-[44px] min-h-[44px] inline-flex items-center justify-center rounded-[var(--r-sm)] border border-black/15 text-[#B91C1C] hover:bg-[#FEE2E2] cursor-pointer"
                             >
                               <Trash2 size={14} strokeWidth={1.5} aria-hidden="true" />
                             </button>
@@ -457,7 +457,7 @@ export function AdminDashboardPage() {
                       <button
                         type="button"
                         onClick={() => adminTogglePromoActive(promo.code)}
-                        className={`min-h-[36px] px-3 rounded-[var(--r-sm)] text-xs font-medium cursor-pointer ${
+                        className={`min-h-[44px] px-3 rounded-[var(--r-sm)] text-xs font-medium cursor-pointer ${
                           promo.active
                             ? 'bg-[#DCFCE7] text-[#15803D] border border-[#15803D]/30'
                             : 'bg-white text-[#575252] border border-black/15'
@@ -533,7 +533,7 @@ export function AdminDashboardPage() {
                       <button
                         type="button"
                         onClick={() => adminToggleBannerActive(banner.id)}
-                        className={`min-h-[36px] px-3 rounded-[var(--r-sm)] text-xs font-medium cursor-pointer shrink-0 ${
+                        className={`min-h-[44px] px-3 rounded-[var(--r-sm)] text-xs font-medium cursor-pointer shrink-0 ${
                           banner.active
                             ? 'bg-[#DCFCE7] text-[#15803D] border border-[#15803D]/30'
                             : 'bg-white text-[#575252] border border-black/15'

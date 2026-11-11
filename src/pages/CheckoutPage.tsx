@@ -124,7 +124,7 @@ export function CheckoutPage() {
               shippingService: 'reguler',
             })
           }
-          className="meika-btn min-h-[40px] px-3.5 rounded-[var(--r-sm)] border border-[var(--border-strong)] bg-white text-xs font-medium text-[#292626] cursor-pointer"
+          className="meika-btn min-h-[44px] px-3.5 rounded-[var(--r-sm)] border border-[var(--border-strong)] bg-white text-xs font-medium text-[#292626] cursor-pointer"
         >
           Isi Contoh Data Uji
         </button>
@@ -398,24 +398,46 @@ export function CheckoutPage() {
               onChange={(e) => setPromoInput(e.target.value)}
               placeholder="Kode promo (MEIKA10)"
               aria-label="Kode promo checkout"
-              className="flex-1 min-h-[42px] px-3 rounded-[var(--r-sm)] border border-[var(--border-strong)] bg-[#FAF8F5] text-sm"
+              className="flex-1 min-h-[44px] px-3 rounded-[var(--r-sm)] border border-[var(--border-strong)] bg-[#FAF8F5] text-sm"
             />
             <button
               type="button"
               onClick={() => {
                 const res = applyPromoCode(promoInput);
-                setPromoMsg(res.message);
+                setPromoMsg(res.ok ? null : res.message);
               }}
-              className="min-h-[42px] px-4 rounded-[var(--r-sm)] bg-[#292626] text-white text-xs font-medium cursor-pointer"
+              className="min-h-[44px] px-4 rounded-[var(--r-sm)] bg-[#292626] text-white text-xs font-medium cursor-pointer"
             >
               Pakai
             </button>
           </div>
+          {summary.hasStockAdjustment && (
+            <p className="m-0 rounded-[var(--r-sm)] bg-[#F6E8E9]/60 border border-[#7A3D49]/30 px-3 py-2 text-xs text-[#292626]">
+              Sebagian item atau jumlah pesanan disesuaikan dengan stok terbaru.
+            </p>
+          )}
           {(promoMsg || appliedPromoCode) && (
-            <div className="flex items-center justify-between text-xs">
-              <span className="text-[#245C3F] font-medium">
-                {promoMsg ?? `${appliedPromoCode} aktif`}
-              </span>
+            <div className="flex items-start justify-between gap-2 text-xs">
+              {promoMsg && !appliedPromoCode ? (
+                <span role="alert" className="text-[#94232D] font-medium">
+                  {promoMsg}
+                </span>
+              ) : activePromoObject ? (
+                summary.promoDiscount > 0 ? (
+                  <span className="text-[#245C3F] font-medium">
+                    Kode promo {activePromoObject.code} berhasil diterapkan (-
+                    {formatIDR(summary.promoDiscount)}).
+                  </span>
+                ) : (
+                  <span role="alert" className="text-[#94232D] font-medium">
+                    {summary.promoMessage ?? 'Promo belum memenuhi ketentuan minimum pembelian.'}
+                  </span>
+                )
+              ) : (
+                <span className="text-[#94232D] font-medium">
+                  {promoMsg ?? `${appliedPromoCode} tidak aktif`}
+                </span>
+              )}
               {appliedPromoCode && (
                 <button
                   type="button"
@@ -424,7 +446,7 @@ export function CheckoutPage() {
                     setPromoInput('');
                     setPromoMsg(null);
                   }}
-                  className="text-[#7A3D49] underline bg-transparent border-0 p-0 cursor-pointer"
+                  className="text-[#7A3D49] underline bg-transparent border-0 p-0 cursor-pointer shrink-0"
                 >
                   Hapus
                 </button>
@@ -457,7 +479,8 @@ export function CheckoutPage() {
 
           <button
             type="submit"
-            className="meika-btn w-full min-h-[48px] rounded-[var(--r-md)] bg-[#7A3D49] hover:bg-[#642F39] text-white text-sm font-medium cursor-pointer"
+            disabled={summary.lines.length === 0}
+            className="meika-btn w-full min-h-[48px] rounded-[var(--r-md)] bg-[#7A3D49] hover:bg-[#642F39] disabled:bg-[#5E5857]/40 text-white text-sm font-medium cursor-pointer disabled:cursor-not-allowed"
           >
             Konfirmasi Pesanan Demo
           </button>

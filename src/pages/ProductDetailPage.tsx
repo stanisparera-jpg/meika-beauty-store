@@ -214,7 +214,7 @@ export function ProductDetailPage() {
                       key={v.id}
                       type="button"
                       onClick={() => handleSelectVariant(v.id)}
-                      className={`min-h-[38px] px-3 rounded-[var(--r-sm)] text-xs font-medium border cursor-pointer ${
+                      className={`min-h-[44px] px-3 rounded-[var(--r-sm)] text-xs font-medium border cursor-pointer ${
                         v.id === activeVariant?.id
                           ? 'bg-[#292626] text-white border-[#292626]'
                           : 'bg-[#FAF8F5] text-[#292626] border-[var(--border-hairline)] hover:border-[#7A3D49]'
@@ -290,7 +290,13 @@ export function ProductDetailPage() {
                 className="meika-btn flex-1 min-w-[180px] min-h-[48px] px-6 rounded-[var(--r-md)] bg-[#7A3D49] hover:bg-[#642F39] disabled:bg-[#5E5857]/40 text-white text-sm font-medium inline-flex items-center justify-center gap-2 cursor-pointer"
               >
                 <ShoppingBag size={17} strokeWidth={1.5} aria-hidden="true" />
-                <span>{cartNotice ? 'Masuk ke Keranjang' : 'Add to Cart'}</span>
+                <span>
+                  {variantStock <= 0
+                    ? 'Stok Habis'
+                    : cartNotice
+                      ? 'Masuk ke Keranjang'
+                      : 'Add to Cart'}
+                </span>
               </button>
 
               <button

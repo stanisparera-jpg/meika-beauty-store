@@ -47,7 +47,8 @@ export function createOrderFromCheckout(input: CreateOrderInput): {
 
   const deductMap = new Map<string, number>();
   for (const line of pricing.lines) {
-    deductMap.set(`${line.product.id}::${line.variant.id}`, line.quantity);
+    const key = `${line.product.id}::${line.variant.id}`;
+    deductMap.set(key, (deductMap.get(key) ?? 0) + line.quantity);
   }
 
   const updatedProducts = input.products.map((product) => ({
@@ -109,7 +110,8 @@ export function applyOrderStockChange(params: {
   if (stockDeltaSign !== 0) {
     const deltaMap = new Map<string, number>();
     for (const item of target.items) {
-      deltaMap.set(`${item.productId}::${item.variantId}`, item.quantity * stockDeltaSign);
+      const key = `${item.productId}::${item.variantId}`;
+      deltaMap.set(key, (deltaMap.get(key) ?? 0) + item.quantity * stockDeltaSign);
     }
 
     updatedProducts = params.products.map((product) => ({

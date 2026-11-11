@@ -25,4 +25,12 @@ describe('resolveAssetUrl', () => {
     );
     expect(resolveAssetUrl('', '/meika-beauty-store/')).toBe('');
   });
+
+  it('rejects dangerous URI schemes such as javascript:, vbscript:, and non-image data: URIs', () => {
+    expect(resolveAssetUrl('javascript:alert(1)', '/')).toBe('');
+    expect(resolveAssetUrl('  JAVASCRIPT:alert(document.cookie) ', '/meika-beauty-store/')).toBe('');
+    expect(resolveAssetUrl('vbscript:msgbox(1)', '/')).toBe('');
+    expect(resolveAssetUrl('data:text/html,<script>alert(1)</script>', '/')).toBe('');
+  });
 });
+

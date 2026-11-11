@@ -20,7 +20,9 @@ interface ProductCardProps {
 
 export function ProductCard({ product, eagerImage = false }: ProductCardProps) {
   const { addToCart, wishlist, toggleWishlist } = useMeikaStore();
-  const [selectedVariantId, setSelectedVariantId] = useState(product.variants[0]?.id ?? '');
+  const [selectedVariantId, setSelectedVariantId] = useState(
+    () => product.variants.find((v) => v.stock > 0)?.id ?? product.variants[0]?.id ?? '',
+  );
   const [imgFailed, setImgFailed] = useState(false);
   const [addedNotice, setAddedNotice] = useState(false);
 
@@ -30,9 +32,11 @@ export function ProductCard({ product, eagerImage = false }: ProductCardProps) {
   const effectivePrice = getEffectivePrice(product, selectedVariant);
   const discountPct = calculateDiscountPercent(product.price, product.discountPrice);
   const totalStock = getProductTotalStock(product);
+  const selectedStock = selectedVariant?.stock ?? 0;
   const wishlisted = wishlist.includes(product.id);
 
   const handleQuickAdd = () => {
+    if (totalStock <= 0 || selectedStock <= 0) return;
     addToCart(product.id, selectedVariant?.id, 1);
     setAddedNotice(true);
     window.setTimeout(() => setAddedNotice(false), 1400);
@@ -113,7 +117,14 @@ export function ProductCard({ product, eagerImage = false }: ProductCardProps) {
               hasShades={product.hasShades}
               variants={product.variants}
               selectedVariantId={selectedVariant?.id}
-              onSelect={product.hasShades ? setSelectedVariantId : undefined}
+              onSelect={
+                product.hasShades
+                  ? (id) => {
+                      setSelectedVariantId(id);
+                      setImgFailed(false);
+                    }
+                  : undefined
+              }
               compact
             />
           </div>
@@ -139,13 +150,13 @@ export function ProductCard({ product, eagerImage = false }: ProductCardProps) {
 
           <button
             type="button"
-            disabled={totalStock <= 0}
+            disabled={totalStock <= 0 || selectedStock <= 0}
             onClick={handleQuickAdd}
-            className="meika-btn mt-3 w-full min-h-[44px] px-3 rounded-[var(--r-md)] bg-[#7A3D49] hover:bg-[#642F39] disabled:bg-[#5E5857]/40 text-white text-sm font-medium inline-flex items-center justify-center gap-2 cursor-pointer"
+            className="meika-btn mt-3 w-full min-h-[44px] px-3 rounded-[var(--r-md)] bg-[#7A3D49] hover:bg-[#642F39] disabled:bg-[#5E5857]/40 text-white text-sm font-medium inline-flex items-center justify-center gap-2 cursor-pointer disabled:cursor-not-allowed"
           >
             <ShoppingBag size={15} strokeWidth={1.5} aria-hidden="true" />
             <span>
-              {totalStock <= 0
+              {totalStock <= 0 || selectedStock <= 0
                 ? 'Stok Habis'
                 : addedNotice
                   ? 'Ditambahkan ke Cart'

@@ -53,6 +53,7 @@ export interface CartPricingSummary {
   shippingCost: number;
   isFreeShipping: boolean;
   grandTotal: number;
+  hasStockAdjustment: boolean;
 }
 
 export function clampQuantityToStock(requestedQty: number, variantStock: number): number {
@@ -113,18 +114,42 @@ export function calculateCartPricing(
   promo?: PromoCode,
 ): CartPricingSummary {
   const lines: CartPricedLine[] = [];
+  const lineIndexMap = new Map<string, number>();
   let subtotal = 0;
   let productSavings = 0;
   let totalUnits = 0;
+  let hasStockAdjustment = false;
 
   for (const item of items) {
     const product = products.find((p) => p.id === item.productId);
-    if (!product) continue;
+    if (!product) {
+      hasStockAdjustment = true;
+      continue;
+    }
     const variant = product.variants.find((v) => v.id === item.variantId) ?? product.variants[0];
-    if (!variant || variant.stock <= 0) continue;
+    if (!variant || variant.stock <= 0) {
+      hasStockAdjustment = true;
+      continue;
+    }
 
-    const quantity = clampQuantityToStock(item.quantity, variant.stock);
-    if (quantity <= 0) continue;
+    const lineKey = `${product.id}::${variant.id}`;
+    const existingIdx = lineIndexMap.get(lineKey);
+    const alreadyAllocated = existingIdx !== undefined ? lines[existingIdx].quantity : 0;
+    const remainingStock = Math.max(0, variant.stock - alreadyAllocated);
+    if (remainingStock <= 0) {
+      hasStockAdjustment = true;
+      continue;
+    }
+
+    const rawRequested = Math.floor(Number.isFinite(item.quantity) ? item.quantity : 1);
+    const quantity = clampQuantityToStock(item.quantity, remainingStock);
+    if (quantity <= 0) {
+      hasStockAdjustment = true;
+      continue;
+    }
+    if (quantity !== rawRequested) {
+      hasStockAdjustment = true;
+    }
 
     const unitPrice = getEffectivePrice(product, variant);
     const compareBase = variant.priceOverride ? variant.priceOverride : product.price;
@@ -132,14 +157,21 @@ export function calculateCartPricing(
     const lineTotal = unitPrice * quantity;
     const lineSavings = savingsPerUnit * quantity;
 
-    lines.push({
-      product,
-      variant,
-      quantity,
-      unitPrice,
-      lineTotal,
-      lineSavings,
-    });
+    if (existingIdx !== undefined) {
+      lines[existingIdx].quantity += quantity;
+      lines[existingIdx].lineTotal += lineTotal;
+      lines[existingIdx].lineSavings += lineSavings;
+    } else {
+      lines.push({
+        product,
+        variant,
+        quantity,
+        unitPrice,
+        lineTotal,
+        lineSavings,
+      });
+      lineIndexMap.set(lineKey, lines.length - 1);
+    }
 
     subtotal += lineTotal;
     productSavings += lineSavings;
@@ -175,6 +207,7 @@ export function calculateCartPricing(
     shippingCost,
     isFreeShipping,
     grandTotal: subtotalAfterPromo + shippingCost,
+    hasStockAdjustment,
   };
 }
 

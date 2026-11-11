@@ -48,6 +48,27 @@ describe('orderLifecycleService atomic stock & revenue tracking', () => {
     expect(restoredProduct.variants.find((v) => v.id === variant.id)!.stock).toBe(startStock);
     expect(cancelledResult.updatedOrders[0].status).toBe('Cancelled');
     expect(computeSimulatedRevenue(cancelledResult.updatedOrders)).toBe(0);
+
+    // Repeating Cancelled transition must remain idempotent and NOT double-restore stock
+    const doubleCancelled = applyOrderStockChange({
+      products: cancelledResult.updatedProducts,
+      orders: cancelledResult.updatedOrders,
+      orderId: order.orderId,
+      nextStatus: 'Cancelled',
+    });
+    const stableProduct = doubleCancelled.updatedProducts.find((p) => p.id === mk01.id)!;
+    expect(stableProduct.variants.find((v) => v.id === variant.id)!.stock).toBe(startStock);
+
+    // Reactivating a Cancelled order re-deducts stock atomically
+    const reactivated = applyOrderStockChange({
+      products: doubleCancelled.updatedProducts,
+      orders: doubleCancelled.updatedOrders,
+      orderId: order.orderId,
+      nextStatus: 'Processing',
+    });
+    const reDeductedProduct = reactivated.updatedProducts.find((p) => p.id === mk01.id)!;
+    expect(reDeductedProduct.variants.find((v) => v.id === variant.id)!.stock).toBe(startStock - 3);
+    expect(reactivated.updatedOrders[0].stockDeducted).toBe(true);
   });
 });
 

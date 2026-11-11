@@ -15,11 +15,16 @@ import {
 } from '../data/promotions';
 import { EMPTY_UT_SLOTS } from '../data/prototypeDocs';
 import {
+  isValidAdminSession,
+  isValidCustomerSession,
   loginAdmin,
   loginCustomer,
   type AuthResult,
 } from '../services/authService';
-import { clampQuantityToStock } from '../services/cartPricingService';
+import {
+  calculateCartPricing,
+  clampQuantityToStock,
+} from '../services/cartPricingService';
 import { validateNewsletterEmail } from '../services/checkoutValidator';
 import {
   applyOrderStockChange,
@@ -110,26 +115,88 @@ export function MeikaStoreProvider({ children }: { children: ReactNode }) {
     readJson<HomePromoBanner[]>(MEIKA_STORAGE_KEYS.HOME_BANNERS, SEED_HOME_BANNERS),
   );
   const [cart, setCart] = useState<CartItem[]>(() =>
-    readJson<CartItem[]>(MEIKA_STORAGE_KEYS.CART, []),
+    readJson<CartItem[]>(
+      MEIKA_STORAGE_KEYS.CART,
+      [],
+      (val): val is CartItem[] =>
+        Array.isArray(val) &&
+        val.every(
+          (i) =>
+            Boolean(i) &&
+            typeof i === 'object' &&
+            typeof (i as CartItem).productId === 'string' &&
+            typeof (i as CartItem).variantId === 'string' &&
+            typeof (i as CartItem).quantity === 'number' &&
+            Number.isFinite((i as CartItem).quantity),
+        ),
+    ),
   );
-  const [appliedPromoCode, setAppliedPromoCode] = useState<string | null>(null);
+  const [appliedPromoCode, setAppliedPromoCode] = useState<string | null>(() =>
+    readJson<string | null>(
+      MEIKA_STORAGE_KEYS.APPLIED_PROMO,
+      null,
+      (val): val is string | null => val === null || (typeof val === 'string' && val.trim().length > 0),
+    ),
+  );
   const [wishlist, setWishlist] = useState<string[]>(() =>
-    readJson<string[]>(MEIKA_STORAGE_KEYS.WISHLIST, []),
+    readJson<string[]>(
+      MEIKA_STORAGE_KEYS.WISHLIST,
+      [],
+      (val): val is string[] => Array.isArray(val) && val.every((x) => typeof x === 'string'),
+    ),
   );
   const [orders, setOrders] = useState<Order[]>(() =>
-    readJson<Order[]>(MEIKA_STORAGE_KEYS.ORDERS, SEED_DEMO_ORDERS),
+    readJson<Order[]>(
+      MEIKA_STORAGE_KEYS.ORDERS,
+      SEED_DEMO_ORDERS,
+      (val): val is Order[] =>
+        Array.isArray(val) &&
+        val.every(
+          (o) =>
+            Boolean(o) &&
+            typeof o === 'object' &&
+            typeof (o as Order).orderId === 'string' &&
+            Array.isArray((o as Order).items),
+        ),
+    ),
   );
   const [customerSession, setCustomerSession] = useState<CustomerSession | null>(() =>
-    readJson<CustomerSession | null>(MEIKA_STORAGE_KEYS.CUSTOMER_SESSION, null),
+    readJson<CustomerSession | null>(
+      MEIKA_STORAGE_KEYS.CUSTOMER_SESSION,
+      null,
+      (val): val is CustomerSession | null => val === null || isValidCustomerSession(val),
+    ),
   );
   const [adminSession, setAdminSession] = useState<AdminSession | null>(() =>
-    readJson<AdminSession | null>(MEIKA_STORAGE_KEYS.ADMIN_SESSION, null),
+    readJson<AdminSession | null>(
+      MEIKA_STORAGE_KEYS.ADMIN_SESSION,
+      null,
+      (val): val is AdminSession | null => val === null || isValidAdminSession(val),
+    ),
   );
   const [newsletterEmails, setNewsletterEmails] = useState<string[]>(() =>
-    readJson<string[]>(MEIKA_STORAGE_KEYS.NEWSLETTER, []),
+    readJson<string[]>(
+      MEIKA_STORAGE_KEYS.NEWSLETTER,
+      [],
+      (val): val is string[] => Array.isArray(val) && val.every((x) => typeof x === 'string'),
+    ),
   );
   const [utEntries, setUtEntries] = useState<UsabilityTestEntry[]>(() =>
-    readJson<UsabilityTestEntry[]>(MEIKA_STORAGE_KEYS.UT_ENTRIES, EMPTY_UT_SLOTS),
+    readJson<UsabilityTestEntry[]>(
+      MEIKA_STORAGE_KEYS.UT_ENTRIES,
+      EMPTY_UT_SLOTS,
+      (val): val is UsabilityTestEntry[] =>
+        Array.isArray(val) &&
+        val.length === EMPTY_UT_SLOTS.length &&
+        val.every(
+          (entry) =>
+            Boolean(entry) &&
+            typeof entry === 'object' &&
+            typeof (entry as UsabilityTestEntry).testerSlot === 'string' &&
+            typeof (entry as UsabilityTestEntry).respondentName === 'string' &&
+            typeof (entry as UsabilityTestEntry).completedTasks === 'string',
+        ),
+    ),
   );
   const [announcementDismissed, setAnnouncementDismissed] = useState<boolean>(() =>
     readJson<boolean>(MEIKA_STORAGE_KEYS.ANNOUNCEMENT_DISMISSED, false),
@@ -230,6 +297,7 @@ export function MeikaStoreProvider({ children }: { children: ReactNode }) {
         return { ok: false, message: `Kode promo "${code}" tidak tersedia atau nonaktif.` };
       }
       setAppliedPromoCode(match.code);
+      writeJson(MEIKA_STORAGE_KEYS.APPLIED_PROMO, match.code);
       return { ok: true, message: `Kode promo ${match.code} berhasil diterapkan.` };
     },
     [promoCodes],
@@ -237,6 +305,7 @@ export function MeikaStoreProvider({ children }: { children: ReactNode }) {
 
   const clearPromoCode = useCallback(() => {
     setAppliedPromoCode(null);
+    removeKey(MEIKA_STORAGE_KEYS.APPLIED_PROMO);
   }, []);
 
   const toggleWishlist = useCallback((productId: string) => {
@@ -276,6 +345,7 @@ export function MeikaStoreProvider({ children }: { children: ReactNode }) {
       writeJson(MEIKA_STORAGE_KEYS.ORDERS, nextOrders);
       persistCart([]);
       setAppliedPromoCode(null);
+      removeKey(MEIKA_STORAGE_KEYS.APPLIED_PROMO);
       return order;
     },
     [activePromoObject, cart, customerSession?.id, orders, persistCart, persistProducts, products],
@@ -338,8 +408,17 @@ export function MeikaStoreProvider({ children }: { children: ReactNode }) {
   const adminDeleteProduct = useCallback(
     (productId: string) => {
       persistProducts(products.filter((p) => p.id !== productId));
+      const nextCart = cart.filter((item) => item.productId !== productId);
+      if (nextCart.length !== cart.length) {
+        persistCart(nextCart);
+      }
+      const nextWishlist = wishlist.filter((id) => id !== productId);
+      if (nextWishlist.length !== wishlist.length) {
+        setWishlist(nextWishlist);
+        writeJson(MEIKA_STORAGE_KEYS.WISHLIST, nextWishlist);
+      }
     },
-    [persistProducts, products],
+    [cart, persistCart, persistProducts, products, wishlist],
   );
 
   const adminUpdateVariantStock = useCallback(
@@ -438,7 +517,10 @@ export function MeikaStoreProvider({ children }: { children: ReactNode }) {
     setAnnouncementDismissed(false);
   }, []);
 
-  const cartCount = useMemo(() => cart.reduce((s, i) => s + i.quantity, 0), [cart]);
+  const cartCount = useMemo(
+    () => calculateCartPricing(cart, products, 'jabodetabek', 'reguler').totalUnits,
+    [cart, products],
+  );
   const wishlistCount = wishlist.length;
 
   const value: MeikaStoreValue = {

@@ -25,11 +25,7 @@ export function CartPage() {
   const [zone, setZone] = useState<ShippingZone>('jabodetabek');
   const [service, setService] = useState<ShippingService>('reguler');
   const [promoInput, setPromoInput] = useState(appliedPromoCode ?? '');
-  const [promoFeedback, setPromoFeedback] = useState<{ ok: boolean; text: string } | null>(
-    appliedPromoCode
-      ? { ok: true, text: `Kode promo ${appliedPromoCode} berhasil diterapkan.` }
-      : null,
-  );
+  const [promoFeedback, setPromoFeedback] = useState<{ ok: boolean; text: string } | null>(null);
 
   const summary = useMemo(
     () => calculateCartPricing(cart, products, zone, service, activePromoObject),
@@ -39,7 +35,11 @@ export function CartPage() {
   const handlePromoSubmit = (e: FormEvent) => {
     e.preventDefault();
     const res = applyPromoCode(promoInput);
-    setPromoFeedback({ ok: res.ok, text: res.message });
+    if (!res.ok) {
+      setPromoFeedback({ ok: false, text: res.message });
+    } else {
+      setPromoFeedback(null);
+    }
   };
 
   if (summary.lines.length === 0) {
@@ -83,6 +83,14 @@ export function CartPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         <div className="lg:col-span-8 space-y-4">
+          {summary.hasStockAdjustment && (
+            <div
+              role="status"
+              className="rounded-[var(--r-md)] border border-[#7A3D49]/30 bg-[#F6E8E9]/60 px-4 py-3 text-xs text-[#292626]"
+            >
+              Sebagian item atau kuantitas disesuaikan otomatis mengikuti ketersediaan stok terbaru.
+            </div>
+          )}
           {summary.lines.map((line) => (
             <div
               key={`${line.product.id}-${line.variant.id}`}
@@ -136,7 +144,7 @@ export function CartPage() {
                     onClick={() =>
                       updateCartQty(line.product.id, line.variant.id, line.quantity - 1)
                     }
-                    className="tap-target w-10 h-10 inline-flex items-center justify-center text-[#292626] cursor-pointer"
+                    className="tap-target min-w-[44px] min-h-[44px] inline-flex items-center justify-center text-[#292626] cursor-pointer"
                   >
                     <Minus size={14} strokeWidth={1.5} aria-hidden="true" />
                   </button>
@@ -150,7 +158,7 @@ export function CartPage() {
                     onClick={() =>
                       updateCartQty(line.product.id, line.variant.id, line.quantity + 1)
                     }
-                    className="tap-target w-10 h-10 inline-flex items-center justify-center text-[#292626] disabled:opacity-40 cursor-pointer"
+                    className="tap-target min-w-[44px] min-h-[44px] inline-flex items-center justify-center text-[#292626] disabled:opacity-40 cursor-pointer"
                   >
                     <Plus size={14} strokeWidth={1.5} aria-hidden="true" />
                   </button>
@@ -164,7 +172,7 @@ export function CartPage() {
                     type="button"
                     aria-label={`Hapus ${line.product.name} dari keranjang`}
                     onClick={() => removeFromCart(line.product.id, line.variant.id)}
-                    className="tap-target w-10 h-10 inline-flex items-center justify-center rounded-[var(--r-sm)] text-[#94232D] hover:bg-[#F6E8E9] cursor-pointer"
+                    className="tap-target min-w-[44px] min-h-[44px] inline-flex items-center justify-center rounded-[var(--r-sm)] text-[#94232D] hover:bg-[#F6E8E9] cursor-pointer"
                   >
                     <Trash2 size={16} strokeWidth={1.5} aria-hidden="true" />
                   </button>
@@ -211,17 +219,22 @@ export function CartPage() {
                 Lepas kode {appliedPromoCode}
               </button>
             )}
-            {promoFeedback && (
-              <p
-                className={`m-0 text-xs font-medium ${
-                  promoFeedback.ok ? 'text-[#245C3F]' : 'text-[#94232D]'
-                }`}
-              >
+            {promoFeedback && !promoFeedback.ok && (
+              <p role="alert" className="m-0 text-xs font-medium text-[#94232D]">
                 {promoFeedback.text}
               </p>
             )}
-            {summary.promoMessage && activePromoObject && summary.promoDiscount === 0 && (
-              <p className="m-0 text-xs text-[#94232D]">{summary.promoMessage}</p>
+            {(!promoFeedback || promoFeedback.ok) && activePromoObject && (
+              summary.promoDiscount > 0 ? (
+                <p className="m-0 text-xs font-medium text-[#245C3F]">
+                  Kode promo {activePromoObject.code} berhasil diterapkan (-
+                  {formatIDR(summary.promoDiscount)}).
+                </p>
+              ) : (
+                <p role="alert" className="m-0 text-xs font-medium text-[#94232D]">
+                  {summary.promoMessage ?? 'Kode promo belum memenuhi ketentuan minimum belanja.'}
+                </p>
+              )
             )}
           </form>
 

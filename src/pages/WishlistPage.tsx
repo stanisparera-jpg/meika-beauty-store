@@ -1,12 +1,20 @@
+import { useState } from 'react';
 import { Heart, ShoppingBag, Trash2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useMeikaStore } from '../hooks/useMeikaStore';
 import { resolveAssetUrl } from '../utils/assetUrl';
-import { formatIDR, getEffectivePrice } from '../utils/formatters';
+import { formatIDR, getEffectivePrice, getProductTotalStock } from '../utils/formatters';
 
 export function WishlistPage() {
   const { wishlist, products, toggleWishlist, addToCart } = useMeikaStore();
+  const [addedId, setAddedId] = useState<string | null>(null);
   const savedProducts = products.filter((p) => wishlist.includes(p.id));
+
+  const handleAddToCart = (productId: string, variantId?: string) => {
+    addToCart(productId, variantId, 1);
+    setAddedId(productId);
+    window.setTimeout(() => setAddedId((prev) => (prev === productId ? null : prev)), 1400);
+  };
 
   return (
     <div className="wrap py-8 lg:py-12">
@@ -39,7 +47,12 @@ export function WishlistPage() {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {savedProducts.map((product) => {
-            const firstVariant = product.variants[0];
+            const availableVariant =
+              product.variants.find((v) => v.stock > 0) ?? product.variants[0];
+            const hasStock =
+              getProductTotalStock(product) > 0 &&
+              Boolean(availableVariant && availableVariant.stock > 0);
+            const justAdded = addedId === product.id;
             return (
               <div
                 key={product.id}
@@ -74,11 +87,14 @@ export function WishlistPage() {
                 <div className="p-4 pt-0 flex gap-2">
                   <button
                     type="button"
-                    onClick={() => addToCart(product.id, firstVariant?.id, 1)}
-                    className="meika-btn flex-1 min-h-[44px] px-3 rounded-[var(--r-md)] bg-[#7A3D49] text-white text-xs font-medium inline-flex items-center justify-center gap-1.5 cursor-pointer"
+                    disabled={!hasStock}
+                    onClick={() => hasStock && handleAddToCart(product.id, availableVariant?.id)}
+                    className="meika-btn flex-1 min-h-[44px] px-3 rounded-[var(--r-md)] bg-[#7A3D49] hover:bg-[#642F39] disabled:bg-[#5E5857]/40 text-white text-xs font-medium inline-flex items-center justify-center gap-1.5 cursor-pointer disabled:cursor-not-allowed"
                   >
                     <ShoppingBag size={14} strokeWidth={1.5} aria-hidden="true" />
-                    <span>Ke Keranjang</span>
+                    <span>
+                      {!hasStock ? 'Stok Habis' : justAdded ? 'Masuk ke Cart' : 'Ke Keranjang'}
+                    </span>
                   </button>
                   <button
                     type="button"

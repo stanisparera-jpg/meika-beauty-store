@@ -57,5 +57,17 @@ describe('authService RBAC and session separation', () => {
       expect(getAdminGateState(admin.session, cust.session)).toBe('authorized');
     }
   });
+
+  it('rejects forged or tampered admin session objects from localStorage spoofing', () => {
+    const forgedAdmin = {
+      id: 'evil-id',
+      name: 'Fake Admin',
+      email: 'attacker@evil.id',
+      role: 'admin' as const,
+      loggedInAtIso: '2026-11-11T10:00:00.000Z',
+    };
+    expect(canAccessAdmin(forgedAdmin)).toBe(false);
+    expect(getAdminGateState(forgedAdmin, null)).toBe('unauthenticated');
+  });
 });
 

@@ -52,5 +52,36 @@ describe('cartPricingService calculations', () => {
     expect(clampQuantityToStock(0, 7)).toBe(1);
     expect(validateAndComputePromo(MEIKA10, 50000).valid).toBe(false);
   });
+
+  it('validates CANTIK20 Rp 150.000 minimum spend, rejects inactive promos, and caps duplicate cart items cleanly', () => {
+    const CANTIK20: PromoCode = {
+      code: 'CANTIK20',
+      label: 'Potongan Rp 20.000',
+      type: 'fixed',
+      value: 20000,
+      minSubtotal: 150000,
+      active: true,
+    };
+
+    expect(validateAndComputePromo(CANTIK20, 149000).valid).toBe(false);
+    expect(validateAndComputePromo(CANTIK20, 150000)).toEqual({ valid: true, discount: 20000 });
+    expect(validateAndComputePromo({ ...CANTIK20, active: false }, 200000).valid).toBe(false);
+
+    const mk01 = SEED_PRODUCTS.find((p) => p.sku === 'MK-01')!;
+    const v1 = mk01.variants[0]; // stock 14
+    const dupRes = calculateCartPricing(
+      [
+        { productId: mk01.id, variantId: v1.id, quantity: 10 },
+        { productId: mk01.id, variantId: v1.id, quantity: 10 },
+      ],
+      SEED_PRODUCTS,
+      'jabodetabek',
+      'reguler',
+    );
+    expect(dupRes.lines).toHaveLength(1);
+    expect(dupRes.lines[0].quantity).toBe(v1.stock);
+    expect(dupRes.totalUnits).toBe(v1.stock);
+    expect(dupRes.hasStockAdjustment).toBe(true);
+  });
 });
 
